@@ -1,15 +1,19 @@
-const express = require("express");
 require("dotenv").config();
-
+const express = require("express");
+const requestLogger = require("./middleware/requestLogger");
 const weatherRoutes = require("./routes/weatherRoutes");
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
+// Middleware
 app.use(express.json());
+app.use(requestLogger);
 
-app.use("/weather", weatherRoutes);
+// Routes
+app.use("/api/weather", weatherRoutes);
 
+// Start Server
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`✅ Server running on port ${PORT}`);
 });
